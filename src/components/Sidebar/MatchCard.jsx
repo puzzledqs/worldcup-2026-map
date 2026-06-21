@@ -16,7 +16,7 @@ function stageLabel(stage, group) {
   return MAP[stage] || stage
 }
 
-export default function MatchCard({ match, homeTeam, awayTeam, stadiumName }) {
+export default function MatchCard({ match, homeTeam, awayTeam, stadiumName, stadiumCity }) {
   const score    = formatScore(match.home_score, match.away_score)
   const homeName = homeTeam?.name || match.home_team
   const awayName = awayTeam?.name || match.away_team
@@ -36,7 +36,9 @@ export default function MatchCard({ match, homeTeam, awayTeam, stadiumName }) {
         </span>
         <span className={`${styles.team} ${styles.away}`}>{awayName} {awayFlag}</span>
       </div>
-      <div className={styles.venue}>{stadiumName}</div>
+      <div className={styles.venue}>
+        {stadiumName}{stadiumCity ? <span className={styles.city}>, {stadiumCity}</span> : null}
+      </div>
     </div>
   )
 }

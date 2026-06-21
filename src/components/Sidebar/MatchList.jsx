@@ -19,6 +19,7 @@ export default function MatchList({ matches, stadiumsMap, teamsMap, emptyMessage
           homeTeam={teamsMap.get(match.home_team)}
           awayTeam={teamsMap.get(match.away_team)}
           stadiumName={stadiumsMap.get(match.stadium_id)?.name || match.stadium_id || '—'}
+          stadiumCity={stadiumsMap.get(match.stadium_id)?.city || ''}
         />
       ))}
     </div>
