@@ -8,4 +8,9 @@ export default defineConfig({
     globals: true,
     setupFiles: './src/test-setup.js',
   },
+  build: {
+    rollupOptions: {
+      external: ['prop-types'],
+    },
+  },
 })
