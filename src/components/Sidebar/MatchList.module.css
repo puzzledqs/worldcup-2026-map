@@ -1,0 +1,10 @@
+.list {
+  overflow-y: auto;
+  flex: 1;
+}
+.empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
