@@ -27,3 +27,6 @@ dist-ssr
 .env
 src/data/matches.json
 src/data/teams.json
+
+# Claude Code local settings
+.claude/
