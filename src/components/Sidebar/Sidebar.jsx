@@ -25,6 +25,18 @@ export default function Sidebar({
     emptyMessage     = 'No upcoming matches'
   }
 
+  if (matches.length === 0 && teams.length === 0) {
+    return (
+      <aside className={styles.sidebar}>
+        <div className={styles.setup}>
+          <p>No match data loaded.</p>
+          <code>npm run fetch-data</code>
+          <p>then refresh the page.</p>
+        </div>
+      </aside>
+    )
+  }
+
   return (
     <aside className={styles.sidebar}>
       <TeamSelector

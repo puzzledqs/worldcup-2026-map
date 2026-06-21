@@ -4,6 +4,7 @@ export function formatScore(homeScore, awayScore) {
 }
 
 export function formatMatchDate(datetimeUtc) {
+  if (!datetimeUtc) return '—'
   return new Intl.DateTimeFormat(undefined, {
     weekday: 'short',
     month:   'short',

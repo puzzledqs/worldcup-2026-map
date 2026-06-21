@@ -6,6 +6,22 @@
   border-left: 1px solid #e2e8f0;
   overflow: hidden;
 }
+.setup {
+  padding: 32px 16px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.setup code {
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #0f172a;
+}
 .heading {
   padding: 10px 16px 6px;
   font-size: 12px;

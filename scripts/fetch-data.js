@@ -85,8 +85,8 @@ function normalizeMatch(m) {
     group: m.group || null,
     datetime_utc: m.utcDate,
     stadium_id: VENUE_TO_STADIUM_ID[m.venue] || null,
-    home_team: m.homeTeam.tla,
-    away_team: m.awayTeam.tla,
+    home_team: m.homeTeam?.tla ?? 'TBD',
+    away_team: m.awayTeam?.tla ?? 'TBD',
     home_score: m.score?.fullTime?.home ?? null,
     away_score: m.score?.fullTime?.away ?? null,
   }
@@ -96,7 +96,7 @@ function extractTeams(rawMatches) {
   const seen = new Map()
   for (const m of rawMatches) {
     for (const t of [m.homeTeam, m.awayTeam]) {
-      if (t.tla && !seen.has(t.tla)) {
+      if (t?.tla && !seen.has(t.tla)) {
         const alpha2 = TLA_TO_ALPHA2[t.tla]
         seen.set(t.tla, {
           tla: t.tla,

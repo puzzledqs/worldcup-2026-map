@@ -22,4 +22,8 @@ describe('formatMatchDate', () => {
     const r = formatMatchDate('2026-06-14T20:00:00Z')
     expect(r).toMatch(/Jun/)
   })
+  test('returns — for null or empty input', () => {
+    expect(formatMatchDate(null)).toBe('—')
+    expect(formatMatchDate('')).toBe('—')
+  })
 })
