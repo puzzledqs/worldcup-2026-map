@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+  height: 100%;
+  background: #f0f4f8;
+}
+.country {
+  fill: #e2e8f0;
+  stroke: #cbd5e1;
+  stroke-width: 0.5;
+  outline: none;
+}
