@@ -1,0 +1,17 @@
+.bubble {
+  fill: white;
+  stroke: #e2e8f0;
+  stroke-width: 1;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.12));
+}
+.line1 {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #0f172a;
+  font-family: inherit;
+}
+.date {
+  font-size: 10px;
+  fill: #64748b;
+  font-family: inherit;
+}

@@ -1,5 +1,6 @@
 import { ComposableMap, Geographies, Geography, Line } from 'react-simple-maps'
 import StadiumMarker from './StadiumMarker'
+import TrajectoryBubble from './TrajectoryBubble'
 import styles from './Map.module.css'
 
 const GEO_URL = '/world-110m.json'
@@ -45,16 +46,23 @@ export default function Map({
           />
         )}
 
+        {/* Pass 1: all circles — rendered first so bubbles always appear on top */}
         {stadiums.map(s => (
           <StadiumMarker
             key={s.id}
             stadium={s}
             state={markerState(s.id)}
             matchCount={stadiumMatchCounts.get(s.id) ?? 0}
-            trajectoryStops={trajectoryStopsByStadium?.get(s.id) || []}
             onClick={onStadiumClick}
           />
         ))}
+
+        {/* Pass 2: trajectory bubbles — rendered last so no circle can cover them */}
+        {stadiums.map(s => {
+          const stops = trajectoryStopsByStadium?.get(s.id)
+          if (!stops?.length) return null
+          return <TrajectoryBubble key={`b-${s.id}`} stadium={s} stops={stops} />
+        })}
       </ComposableMap>
     </div>
   )
