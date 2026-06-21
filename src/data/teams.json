@@ -1,1 +1,338 @@
-[]
+[
+  {
+    "tla": "ALG",
+    "name": "Algeria",
+    "shortName": "Algeria",
+    "flag": "🇩🇿",
+    "color": "#006233"
+  },
+  {
+    "tla": "ARG",
+    "name": "Argentina",
+    "shortName": "Argentina",
+    "flag": "🇦🇷",
+    "color": "#74ACDF"
+  },
+  {
+    "tla": "AUS",
+    "name": "Australia",
+    "shortName": "Australia",
+    "flag": "🇦🇺",
+    "color": "#00843D"
+  },
+  {
+    "tla": "AUT",
+    "name": "Austria",
+    "shortName": "Austria",
+    "flag": "🇦🇹",
+    "color": "#ED2939"
+  },
+  {
+    "tla": "BEL",
+    "name": "Belgium",
+    "shortName": "Belgium",
+    "flag": "🇧🇪",
+    "color": "#000000"
+  },
+  {
+    "tla": "BIH",
+    "name": "Bosnia-Herzegovina",
+    "shortName": "Bosnia-Herz",
+    "flag": "🇧🇦",
+    "color": "#002395"
+  },
+  {
+    "tla": "BRA",
+    "name": "Brazil",
+    "shortName": "Brazil",
+    "flag": "🇧🇷",
+    "color": "#009C3B"
+  },
+  {
+    "tla": "CAN",
+    "name": "Canada",
+    "shortName": "Canada",
+    "flag": "🇨🇦",
+    "color": "#FF0000"
+  },
+  {
+    "tla": "CPV",
+    "name": "Cape Verde",
+    "shortName": "Cape Verde",
+    "flag": "🇨🇻",
+    "color": "#003893"
+  },
+  {
+    "tla": "COL",
+    "name": "Colombia",
+    "shortName": "Colombia",
+    "flag": "🇨🇴",
+    "color": "#FCD116"
+  },
+  {
+    "tla": "COD",
+    "name": "Congo DR",
+    "shortName": "Congo DR",
+    "flag": "🇨🇩",
+    "color": "#007FFF"
+  },
+  {
+    "tla": "CRO",
+    "name": "Croatia",
+    "shortName": "Croatia",
+    "flag": "🇭🇷",
+    "color": "#FF0000"
+  },
+  {
+    "tla": "CUW",
+    "name": "Curaçao",
+    "shortName": "Curaçao",
+    "flag": "🇨🇼",
+    "color": "#002B7F"
+  },
+  {
+    "tla": "CZE",
+    "name": "Czechia",
+    "shortName": "Czechia",
+    "flag": "🇨🇿",
+    "color": "#D7141A"
+  },
+  {
+    "tla": "ECU",
+    "name": "Ecuador",
+    "shortName": "Ecuador",
+    "flag": "🇪🇨",
+    "color": "#FFD100"
+  },
+  {
+    "tla": "EGY",
+    "name": "Egypt",
+    "shortName": "Egypt",
+    "flag": "🇪🇬",
+    "color": "#CE1126"
+  },
+  {
+    "tla": "ENG",
+    "name": "England",
+    "shortName": "England",
+    "flag": "🇬🇧",
+    "color": "#FFFFFF"
+  },
+  {
+    "tla": "FRA",
+    "name": "France",
+    "shortName": "France",
+    "flag": "🇫🇷",
+    "color": "#002395"
+  },
+  {
+    "tla": "GER",
+    "name": "Germany",
+    "shortName": "Germany",
+    "flag": "🇩🇪",
+    "color": "#000000"
+  },
+  {
+    "tla": "GHA",
+    "name": "Ghana",
+    "shortName": "Ghana",
+    "flag": "🇬🇭",
+    "color": "#006B3F"
+  },
+  {
+    "tla": "HAI",
+    "name": "Haiti",
+    "shortName": "Haiti",
+    "flag": "🇭🇹",
+    "color": "#00209F"
+  },
+  {
+    "tla": "IRN",
+    "name": "Iran",
+    "shortName": "Iran",
+    "flag": "🇮🇷",
+    "color": "#239F40"
+  },
+  {
+    "tla": "IRQ",
+    "name": "Iraq",
+    "shortName": "Iraq",
+    "flag": "🇮🇶",
+    "color": "#007A3D"
+  },
+  {
+    "tla": "CIV",
+    "name": "Ivory Coast",
+    "shortName": "Ivory Coast",
+    "flag": "🇨🇮",
+    "color": "#F77F00"
+  },
+  {
+    "tla": "JPN",
+    "name": "Japan",
+    "shortName": "Japan",
+    "flag": "🇯🇵",
+    "color": "#BC002D"
+  },
+  {
+    "tla": "JOR",
+    "name": "Jordan",
+    "shortName": "Jordan",
+    "flag": "🇯🇴",
+    "color": "#007A3D"
+  },
+  {
+    "tla": "MEX",
+    "name": "Mexico",
+    "shortName": "Mexico",
+    "flag": "🇲🇽",
+    "color": "#006847"
+  },
+  {
+    "tla": "MAR",
+    "name": "Morocco",
+    "shortName": "Morocco",
+    "flag": "🇲🇦",
+    "color": "#C1272D"
+  },
+  {
+    "tla": "NED",
+    "name": "Netherlands",
+    "shortName": "Netherlands",
+    "flag": "🇳🇱",
+    "color": "#FF6600"
+  },
+  {
+    "tla": "NZL",
+    "name": "New Zealand",
+    "shortName": "New Zealand",
+    "flag": "🇳🇿",
+    "color": "#00247D"
+  },
+  {
+    "tla": "NOR",
+    "name": "Norway",
+    "shortName": "Norway",
+    "flag": "🇳🇴",
+    "color": "#EF2B2D"
+  },
+  {
+    "tla": "PAN",
+    "name": "Panama",
+    "shortName": "Panama",
+    "flag": "🇵🇦",
+    "color": "#005293"
+  },
+  {
+    "tla": "PAR",
+    "name": "Paraguay",
+    "shortName": "Paraguay",
+    "flag": "🇵🇾",
+    "color": "#D52B1E"
+  },
+  {
+    "tla": "POR",
+    "name": "Portugal",
+    "shortName": "Portugal",
+    "flag": "🇵🇹",
+    "color": "#FF0000"
+  },
+  {
+    "tla": "QAT",
+    "name": "Qatar",
+    "shortName": "Qatar",
+    "flag": "🇶🇦",
+    "color": "#8D1B3D"
+  },
+  {
+    "tla": "KSA",
+    "name": "Saudi Arabia",
+    "shortName": "Saudi Arabia",
+    "flag": "🇸🇦",
+    "color": "#006C35"
+  },
+  {
+    "tla": "SCO",
+    "name": "Scotland",
+    "shortName": "Scotland",
+    "flag": "🇬🇧",
+    "color": "#0065BD"
+  },
+  {
+    "tla": "SEN",
+    "name": "Senegal",
+    "shortName": "Senegal",
+    "flag": "🇸🇳",
+    "color": "#00853F"
+  },
+  {
+    "tla": "RSA",
+    "name": "South Africa",
+    "shortName": "South Africa",
+    "flag": "🇿🇦",
+    "color": "#007A4D"
+  },
+  {
+    "tla": "KOR",
+    "name": "South Korea",
+    "shortName": "South Korea",
+    "flag": "🇰🇷",
+    "color": "#CD2E3A"
+  },
+  {
+    "tla": "ESP",
+    "name": "Spain",
+    "shortName": "Spain",
+    "flag": "🇪🇸",
+    "color": "#AA151B"
+  },
+  {
+    "tla": "SWE",
+    "name": "Sweden",
+    "shortName": "Sweden",
+    "flag": "🇸🇪",
+    "color": "#006AA7"
+  },
+  {
+    "tla": "SUI",
+    "name": "Switzerland",
+    "shortName": "Switzerland",
+    "flag": "🇨🇭",
+    "color": "#FF0000"
+  },
+  {
+    "tla": "TUN",
+    "name": "Tunisia",
+    "shortName": "Tunisia",
+    "flag": "🏳️",
+    "color": "#E70013"
+  },
+  {
+    "tla": "TUR",
+    "name": "Türkiye",
+    "shortName": "Türkiye",
+    "flag": "🇹🇷",
+    "color": "#E30A17"
+  },
+  {
+    "tla": "USA",
+    "name": "United States",
+    "shortName": "USA",
+    "flag": "🇺🇸",
+    "color": "#B22234"
+  },
+  {
+    "tla": "URU",
+    "name": "Uruguay",
+    "shortName": "Uruguay",
+    "flag": "🇺🇾",
+    "color": "#5EB6E4"
+  },
+  {
+    "tla": "UZB",
+    "name": "Uzbekistan",
+    "shortName": "Uzbekistan",
+    "flag": "🇺🇿",
+    "color": "#1EB53A"
+  }
+]

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Map from './Map'
+import MapComponent from './Map'
 import stadiums from '../../data/stadiums.json'
 
 // react-simple-maps uses SVG + d3 projections that don't work in jsdom.
@@ -8,20 +8,24 @@ vi.mock('react-simple-maps', () => ({
   Geographies:   ({ children }) => <>{children({ geographies: [] })}</>,
   Geography:     () => null,
   Marker:        ({ children }) => <g>{children}</g>,
+  Line:          () => null,
 }))
 
 const noop = () => {}
+const emptyCountMap = new Map()
 
 test('renders without crashing', () => {
   const { container } = render(
-    <Map stadiums={stadiums} highlightedIds={new Set()} selectedId={null} onStadiumClick={noop} />
+    <MapComponent stadiums={stadiums} highlightedIds={new Set()} selectedId={null}
+         stadiumMatchCounts={emptyCountMap} trajectoryPoints={[]} onStadiumClick={noop} />
   )
   expect(container.firstChild).not.toBeNull()
 })
 
 test('renders a button for each stadium', () => {
   render(
-    <Map stadiums={stadiums} highlightedIds={new Set()} selectedId={null} onStadiumClick={noop} />
+    <MapComponent stadiums={stadiums} highlightedIds={new Set()} selectedId={null}
+         stadiumMatchCounts={emptyCountMap} trajectoryPoints={[]} onStadiumClick={noop} />
   )
   expect(screen.getAllByRole('button')).toHaveLength(16)
 })

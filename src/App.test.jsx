@@ -6,12 +6,13 @@ vi.mock('react-simple-maps', () => ({
   Geographies:   ({ children }) => <>{children({ geographies: [] })}</>,
   Geography:     () => null,
   Marker:        ({ children }) => <g>{children}</g>,
+  Line:          () => null,
 }))
 
 vi.mock('./data/matches.json', () => ({ default: [
   { id: '1', home_team: 'USA', away_team: 'MEX', stadium_id: 'NYC',
     datetime_utc: '2099-07-01T20:00:00Z', stage: 'GROUP_STAGE',
-    group: 'GROUP_A', home_score: null, away_score: null },
+    group: 'A', home_score: null, away_score: null },
 ]}))
 vi.mock('./data/teams.json', () => ({ default: [
   { tla: 'USA', name: 'United States', shortName: 'USA', flag: '🇺🇸', color: '#B22234' },

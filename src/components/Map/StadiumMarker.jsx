@@ -1,7 +1,8 @@
 import { Marker } from 'react-simple-maps'
 import styles from './StadiumMarker.module.css'
 
-export default function StadiumMarker({ stadium, state, onClick }) {
+export default function StadiumMarker({ stadium, state, matchCount, onClick }) {
+  const r = state === 'highlighted' ? 13 : 11
   return (
     <Marker coordinates={[stadium.lon, stadium.lat]}>
       <g
@@ -10,8 +11,11 @@ export default function StadiumMarker({ stadium, state, onClick }) {
         className={`${styles.marker} ${styles[state]}`}
         onClick={() => onClick(stadium.id)}
       >
-        <circle r={state === 'highlighted' ? 10 : 7} />
-        <text className={styles.label} textAnchor="middle" y={-14}>
+        <circle r={r} />
+        <text className={styles.count} textAnchor="middle" dominantBaseline="central">
+          {matchCount}
+        </text>
+        <text className={styles.label} textAnchor="middle" y={r + 12}>
           {stadium.city}
         </text>
       </g>

@@ -3,31 +3,39 @@
   transition: all 0.2s ease;
 }
 .marker circle {
-  fill: #9ca3af;
+  fill: #6b7280;
   stroke: #fff;
   stroke-width: 2;
+}
+.count {
+  fill: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: inherit;
+  pointer-events: none;
 }
 .label {
   fill: #374151;
   font-size: 10px;
+  font-weight: 500;
   font-family: inherit;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s;
 }
-.marker:hover .label { opacity: 1; }
 
 .highlighted circle {
   fill: var(--accent-color, #3b82f6);
-  filter: drop-shadow(0 0 4px var(--accent-color, #3b82f6));
+  filter: drop-shadow(0 0 5px var(--accent-color, #3b82f6));
 }
 .highlighted .label {
-  opacity: 1;
-  font-weight: 600;
+  font-weight: 700;
   fill: #111827;
 }
 
-.dimmed circle { fill: #d1d5db; opacity: 0.4; }
-.dimmed .label { opacity: 0; }
+.dimmed circle {
+  fill: #d1d5db;
+  opacity: 0.35;
+}
+.dimmed .count { opacity: 0.35; }
+.dimmed .label { opacity: 0.3; }
 
-.default:hover circle { fill: #6b7280; }
+.default:hover circle { fill: #4b5563; }

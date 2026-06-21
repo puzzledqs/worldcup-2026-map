@@ -6,6 +6,10 @@ export function filterByStadium(matches, stadiumId) {
   return matches.filter(m => m.stadium_id === stadiumId)
 }
 
+export function filterByGroup(matches, group) {
+  return matches.filter(m => m.group === group)
+}
+
 export function getUpcoming(matches, n) {
   const now = Date.now()
   return matches

@@ -11,14 +11,18 @@ const teamsMap = new Map([
 const teams = [...teamsMap.values()]
 
 const matches = [
-  { id: '1', home_team: 'USA', away_team: 'MEX', stadium_id: 'NYC', datetime_utc: '2099-07-01T20:00:00Z', stage: 'GROUP_STAGE', group: 'GROUP_A', home_score: null, away_score: null },
-  { id: '2', home_team: 'MEX', away_team: 'USA', stadium_id: 'NYC', datetime_utc: '2099-07-05T20:00:00Z', stage: 'GROUP_STAGE', group: 'GROUP_B', home_score: null, away_score: null },
+  { id: '1', home_team: 'USA', away_team: 'MEX', stadium_id: 'NYC', datetime_utc: '2099-07-01T20:00:00Z', stage: 'GROUP_STAGE', group: 'A', home_score: null, away_score: null },
+  { id: '2', home_team: 'MEX', away_team: 'USA', stadium_id: 'NYC', datetime_utc: '2099-07-05T20:00:00Z', stage: 'GROUP_STAGE', group: 'B', home_score: null, away_score: null },
 ]
 
+const groups = ['A', 'B']
+
 const base = {
-  teams, matches, stadiumsMap, teamsMap,
+  teams, matches, groups, stadiumsMap, teamsMap,
   selectedTeam: null, selectedStadium: null, stadiumName: null,
+  selectedGroup: null,
   onTeamSelect: () => {}, onTeamClear: () => {},
+  onGroupSelect: () => {}, onGroupClear: () => {},
 }
 
 test('shows "Next matches" heading when nothing selected', () => {
@@ -42,4 +46,10 @@ test('filters to only USA matches when team is USA', () => {
   render(<Sidebar {...base} selectedTeam="USA" />)
   // Both match 1 and 2 involve USA
   expect(screen.getAllByText(/United States|Mexico/).length).toBeGreaterThan(0)
+})
+
+test('shows group heading when group selected', () => {
+  const { container } = render(<Sidebar {...base} selectedGroup="A" />)
+  const heading = container.querySelector('[class*="heading"]')
+  expect(heading?.textContent).toBe('Group A')
 })
