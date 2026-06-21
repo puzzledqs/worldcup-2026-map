@@ -26,6 +26,7 @@
   margin-bottom: 6px;
 }
 .team { font-size: 14px; font-weight: 500; color: #1e293b; flex: 1; }
+.flag { font-size: 22px; line-height: 1; vertical-align: middle; }
 .away { text-align: right; }
 
 .score {

@@ -30,11 +30,15 @@ export default function MatchCard({ match, homeTeam, awayTeam, stadiumName, stad
         <span className={styles.date}>{formatMatchDate(match.datetime_utc)}</span>
       </div>
       <div className={styles.teams}>
-        <span className={styles.team}>{homeFlag} {homeName}</span>
+        <span className={styles.team}>
+          {homeFlag && <span className={styles.flag}>{homeFlag}</span>} {homeName}
+        </span>
         <span className={styles.score}>
           {score ?? <span className={styles.upcoming}>Upcoming</span>}
         </span>
-        <span className={`${styles.team} ${styles.away}`}>{awayName} {awayFlag}</span>
+        <span className={`${styles.team} ${styles.away}`}>
+          {awayName} {awayFlag && <span className={styles.flag}>{awayFlag}</span>}
+        </span>
       </div>
       <div className={styles.venue}>
         {stadiumName}{stadiumCity ? <span className={styles.city}>, {stadiumCity}</span> : null}
