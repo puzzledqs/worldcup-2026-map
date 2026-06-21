@@ -19,10 +19,11 @@ const groups = ['A', 'B']
 
 const base = {
   teams, matches, groups, stadiumsMap, teamsMap,
-  selectedTeam: null, selectedStadium: null, stadiumName: null,
+  selectedTlas: new Set(), selectedStadium: null, stadiumName: null,
   selectedGroup: null,
-  onTeamSelect: () => {}, onTeamClear: () => {},
+  onTeamAdd: () => {}, onTeamRemove: () => {}, onTeamClearAll: () => {},
   onGroupSelect: () => {}, onGroupClear: () => {},
+  onStadiumClear: () => {},
 }
 
 test('shows "Next matches" heading when nothing selected', () => {
@@ -31,19 +32,19 @@ test('shows "Next matches" heading when nothing selected', () => {
 })
 
 test('shows team name as heading when team selected', () => {
-  const { container } = render(<Sidebar {...base} selectedTeam="USA" />)
+  const { container } = render(<Sidebar {...base} selectedTlas={new Set(['USA'])} />)
   const heading = container.querySelector('[class*="heading"]')
   expect(heading?.textContent).toContain('United States')
 })
 
 test('shows stadium name as heading when stadium selected', () => {
   const { container } = render(<Sidebar {...base} selectedStadium="NYC" stadiumName="MetLife Stadium" />)
-  const heading = container.querySelector('[class*="heading"]')
+  const heading = container.querySelector('[class*="heading"]:not([class*="headingRow"])')
   expect(heading?.textContent).toBe('MetLife Stadium')
 })
 
 test('filters to only USA matches when team is USA', () => {
-  render(<Sidebar {...base} selectedTeam="USA" />)
+  render(<Sidebar {...base} selectedTlas={new Set(['USA'])} />)
   // Both match 1 and 2 involve USA
   expect(screen.getAllByText(/United States|Mexico/).length).toBeGreaterThan(0)
 })

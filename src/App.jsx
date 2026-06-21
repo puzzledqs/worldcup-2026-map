@@ -8,7 +8,7 @@ import Sidebar      from './components/Sidebar/Sidebar'
 import styles  from './App.module.css'
 
 export default function App() {
-  const [selectedTeam,    setSelectedTeam]    = useState(null)
+  const [selectedTeams,  setSelectedTeams]  = useState(new Set())
   const [selectedStadium, setSelectedStadium] = useState(null)
   const [selectedGroup,   setSelectedGroup]   = useState(null)
 
@@ -32,84 +32,105 @@ export default function App() {
   }, [])
 
   const highlightedStadiumIds = useMemo(() => {
-    if (selectedTeam) {
+    if (selectedTeams.size > 0) {
       return new Set(
         matchesData
-          .filter(m => m.home_team === selectedTeam || m.away_team === selectedTeam)
+          .filter(m => (selectedTeams.has(m.home_team) || selectedTeams.has(m.away_team)) && m.stadium_id)
           .map(m => m.stadium_id)
-          .filter(Boolean)
       )
     }
     if (selectedGroup) {
       return new Set(
-        matchesData
-          .filter(m => m.group === selectedGroup)
-          .map(m => m.stadium_id)
-          .filter(Boolean)
+        matchesData.filter(m => m.group === selectedGroup && m.stadium_id).map(m => m.stadium_id)
       )
     }
     return new Set()
-  }, [selectedTeam, selectedGroup])
+  }, [selectedTeams, selectedGroup])
 
-  // All of the selected team's matches in order, with display info
-  const teamMatchStops = useMemo(() => {
-    if (!selectedTeam) return []
-    return matchesData
-      .filter(m => (m.home_team === selectedTeam || m.away_team === selectedTeam) && m.stadium_id)
-      .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc))
-      .map((m, idx) => ({
-        seq: idx + 1,
-        stadium_id: m.stadium_id,
-        dateStr: formatMatchDateShort(m.datetime_utc),
-        homeFlag: teamsMap.get(m.home_team)?.flag || m.home_team,
-        awayFlag: teamsMap.get(m.away_team)?.flag || m.away_team,
-        homeScore: m.home_score,
-        awayScore: m.away_score,
-      }))
-  }, [selectedTeam, teamsMap])
+  // Per-team trajectory data: stops, line points, and team color
+  const perTeamTrajectories = useMemo(() => {
+    return [...selectedTeams].map(tla => {
+      const team = teamsMap.get(tla)
+      const teamColor = team?.color || '#3b82f6'
 
-  // Grouped by stadium so StadiumMarker can render stacked bubbles
-  const trajectoryStopsByStadium = useMemo(() => {
-    const byStadium = new Map()
-    teamMatchStops.forEach(stop => {
-      if (!byStadium.has(stop.stadium_id)) byStadium.set(stop.stadium_id, [])
-      byStadium.get(stop.stadium_id).push(stop)
+      const teamMatches = matchesData
+        .filter(m => (m.home_team === tla || m.away_team === tla) && m.stadium_id)
+        .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc))
+        .map((m, idx) => ({
+          seq: idx + 1,
+          tla,
+          teamColor,
+          stadium_id: m.stadium_id,
+          datetime_utc: m.datetime_utc,
+          dateStr: formatMatchDateShort(m.datetime_utc),
+          homeFlag: teamsMap.get(m.home_team)?.flag || m.home_team,
+          awayFlag: teamsMap.get(m.away_team)?.flag || m.away_team,
+          homeScore: m.home_score,
+          awayScore: m.away_score,
+        }))
+
+      const stopsByStadium = new Map()
+      teamMatches.forEach(stop => {
+        if (!stopsByStadium.has(stop.stadium_id)) stopsByStadium.set(stop.stadium_id, [])
+        stopsByStadium.get(stop.stadium_id).push(stop)
+      })
+
+      const stadia = teamMatches.map(m => stadiumsMap.get(m.stadium_id)).filter(Boolean)
+      const deduped = stadia.filter((s, i) => i === 0 || s.id !== stadia[i - 1].id)
+      const points = deduped.map(s => [s.lon, s.lat])
+
+      return { tla, teamColor, points, stopsByStadium }
     })
-    return byStadium
-  }, [teamMatchStops])
+  }, [selectedTeams, teamsMap, stadiumsMap])
 
-  // Dedup consecutive same-stadium visits for the Line path
-  const trajectoryPoints = useMemo(() => {
-    const stadia = teamMatchStops
-      .map(s => stadiumsMap.get(s.stadium_id))
-      .filter(Boolean)
-    const deduped = stadia.filter((s, i) => i === 0 || s.id !== stadia[i - 1].id)
-    return deduped.map(s => [s.lon, s.lat])
-  }, [teamMatchStops, stadiumsMap])
+  // Combined stops by stadium from all selected teams (sorted by datetime)
+  const trajectoryStopsByStadium = useMemo(() => {
+    const combined = new Map()
+    perTeamTrajectories.forEach(({ stopsByStadium }) => {
+      stopsByStadium.forEach((stops, stadiumId) => {
+        if (!combined.has(stadiumId)) combined.set(stadiumId, [])
+        combined.get(stadiumId).push(...stops)
+      })
+    })
+    combined.forEach((stops, key) => {
+      combined.set(key, [...stops].sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc)))
+    })
+    return combined
+  }, [perTeamTrajectories])
 
-  const accentColor = selectedTeam
-    ? (teamsMap.get(selectedTeam)?.color || '#3b82f6')
+  // Use the single selected team's color, otherwise default blue
+  const accentColor = selectedTeams.size === 1
+    ? (teamsMap.get([...selectedTeams][0])?.color || '#3b82f6')
     : '#3b82f6'
 
-  function handleTeamSelect(tla) {
-    setSelectedTeam(tla)
+  function handleTeamAdd(tla) {
+    if (selectedTeams.size >= 4) return
+    setSelectedTeams(prev => new Set([...prev, tla]))
     setSelectedStadium(null)
     setSelectedGroup(null)
   }
-  function handleTeamClear() { setSelectedTeam(null) }
+  function handleTeamRemove(tla) {
+    setSelectedTeams(prev => {
+      const next = new Set(prev)
+      next.delete(tla)
+      return next
+    })
+  }
+  function handleTeamClearAll() { setSelectedTeams(new Set()) }
 
   function handleGroupSelect(g) {
     setSelectedGroup(g)
-    setSelectedTeam(null)
+    setSelectedTeams(new Set())
     setSelectedStadium(null)
   }
   function handleGroupClear() { setSelectedGroup(null) }
 
   function handleStadiumClick(id) {
     setSelectedStadium(prev => prev === id ? null : id)
-    setSelectedTeam(null)
+    setSelectedTeams(new Set())
     setSelectedGroup(null)
   }
+  function handleStadiumClear() { setSelectedStadium(null) }
 
   const stadiumName = selectedStadium
     ? stadiumsMap.get(selectedStadium)?.name || null
@@ -123,7 +144,7 @@ export default function App() {
           highlightedIds={highlightedStadiumIds}
           selectedId={selectedStadium}
           stadiumMatchCounts={stadiumMatchCounts}
-          trajectoryPoints={trajectoryPoints}
+          perTeamTrajectories={perTeamTrajectories}
           trajectoryStopsByStadium={trajectoryStopsByStadium}
           onStadiumClick={handleStadiumClick}
         />
@@ -135,14 +156,16 @@ export default function App() {
           groups={groups}
           stadiumsMap={stadiumsMap}
           teamsMap={teamsMap}
-          selectedTeam={selectedTeam}
+          selectedTlas={selectedTeams}
           selectedStadium={selectedStadium}
           stadiumName={stadiumName}
           selectedGroup={selectedGroup}
-          onTeamSelect={handleTeamSelect}
-          onTeamClear={handleTeamClear}
+          onTeamAdd={handleTeamAdd}
+          onTeamRemove={handleTeamRemove}
+          onTeamClearAll={handleTeamClearAll}
           onGroupSelect={handleGroupSelect}
           onGroupClear={handleGroupClear}
+          onStadiumClear={handleStadiumClear}
         />
       </div>
     </div>

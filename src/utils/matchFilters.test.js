@@ -1,4 +1,4 @@
-import { filterByTeam, filterByStadium, filterByGroup, getUpcoming } from './matchFilters'
+import { filterByTeam, filterByTeams, filterByStadium, filterByGroup, getUpcoming } from './matchFilters'
 
 const PAST   = '2020-01-01T20:00:00Z'
 const FUTURE = '2099-01-01T20:00:00Z'
@@ -16,6 +16,15 @@ describe('filterByTeam', () => {
   })
   test('returns empty array for unknown team', () => {
     expect(filterByTeam(matches, 'XYZ')).toEqual([])
+  })
+})
+
+describe('filterByTeams', () => {
+  test('returns matches where any of the teams is home or away', () => {
+    expect(filterByTeams(matches, new Set(['BRA', 'GER'])).map(m => m.id)).toEqual(['2', '3', '4'])
+  })
+  test('returns empty array when set is empty', () => {
+    expect(filterByTeams(matches, new Set())).toEqual([])
   })
 })
 

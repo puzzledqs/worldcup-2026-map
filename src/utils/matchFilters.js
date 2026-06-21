@@ -2,6 +2,10 @@ export function filterByTeam(matches, tla) {
   return matches.filter(m => m.home_team === tla || m.away_team === tla)
 }
 
+export function filterByTeams(matches, tlas) {
+  return matches.filter(m => tlas.has(m.home_team) || tlas.has(m.away_team))
+}
+
 export function filterByStadium(matches, stadiumId) {
   return matches.filter(m => m.stadium_id === stadiumId)
 }

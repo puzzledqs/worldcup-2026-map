@@ -1,4 +1,4 @@
-import { filterByTeam, filterByStadium, filterByGroup, getUpcoming } from '../../utils/matchFilters'
+import { filterByTeams, filterByStadium, filterByGroup, getUpcoming } from '../../utils/matchFilters'
 import TeamSelector from './TeamSelector'
 import GroupSelector from './GroupSelector'
 import MatchList from './MatchList'
@@ -6,10 +6,11 @@ import styles from './Sidebar.module.css'
 
 export default function Sidebar({
   teams, matches, groups, stadiumsMap, teamsMap,
-  selectedTeam, selectedStadium, stadiumName,
+  selectedTlas, selectedStadium, stadiumName,
   selectedGroup,
-  onTeamSelect, onTeamClear,
+  onTeamAdd, onTeamRemove, onTeamClearAll,
   onGroupSelect, onGroupClear,
+  onStadiumClear,
 }) {
   if (matches.length === 0 && teams.length === 0) {
     return (
@@ -25,11 +26,17 @@ export default function Sidebar({
 
   let displayedMatches, heading, emptyMessage
 
-  if (selectedTeam) {
-    const team = teamsMap.get(selectedTeam)
-    displayedMatches = filterByTeam(matches, selectedTeam)
-    heading          = `${team?.flag || ''} ${team?.name || selectedTeam}`.trim()
-    emptyMessage     = 'No matches found for this team'
+  if (selectedTlas.size > 0) {
+    displayedMatches = filterByTeams(matches, selectedTlas)
+    if (selectedTlas.size === 1) {
+      const tla  = [...selectedTlas][0]
+      const team = teamsMap.get(tla)
+      heading    = `${team?.flag || ''} ${team?.name || tla}`.trim()
+    } else {
+      const flags = [...selectedTlas].map(t => teamsMap.get(t)?.flag || '').join(' ')
+      heading     = `${flags} ${selectedTlas.size} teams`
+    }
+    emptyMessage = 'No matches found'
   } else if (selectedGroup) {
     displayedMatches = filterByGroup(matches, selectedGroup)
     heading          = `Group ${selectedGroup}`
@@ -48,9 +55,10 @@ export default function Sidebar({
     <aside className={styles.sidebar}>
       <TeamSelector
         teams={teams}
-        selectedTla={selectedTeam}
-        onSelect={onTeamSelect}
-        onClear={onTeamClear}
+        selectedTlas={selectedTlas}
+        onAdd={onTeamAdd}
+        onRemove={onTeamRemove}
+        onClearAll={onTeamClearAll}
       />
       <GroupSelector
         groups={groups}
@@ -58,7 +66,20 @@ export default function Sidebar({
         onSelect={onGroupSelect}
         onClear={onGroupClear}
       />
-      <div className={styles.heading}>{heading}</div>
+      {selectedStadium && (() => {
+        const stadium = stadiumsMap.get(selectedStadium)
+        return stadium?.thumbnail ? (
+          <div className={styles.stadiumHero}>
+            <img src={stadium.thumbnail} alt={stadium.name} className={styles.stadiumImg} />
+          </div>
+        ) : null
+      })()}
+      <div className={styles.headingRow}>
+        <span className={styles.heading}>{heading}</span>
+        {selectedStadium && (
+          <button className={styles.clearStadium} onClick={onStadiumClear} aria-label="unselect stadium">✕</button>
+        )}
+      </div>
       <MatchList
         matches={displayedMatches}
         stadiumsMap={stadiumsMap}

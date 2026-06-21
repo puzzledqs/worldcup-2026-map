@@ -2,11 +2,32 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.marker circle {
+
+.fallback {
   fill: #6b7280;
+}
+
+.border {
+  fill: none;
   stroke: #fff;
   stroke-width: 2;
+  pointer-events: none;
 }
+
+.highlighted .border {
+  stroke: var(--accent-color, #3b82f6);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 5px var(--accent-color, #3b82f6));
+}
+
+.dimmed {
+  opacity: 0.3;
+}
+
+.badge {
+  fill: rgba(15, 23, 42, 0.72);
+}
+
 .count {
   fill: #fff;
   font-size: 9px;
@@ -14,28 +35,20 @@
   font-family: inherit;
   pointer-events: none;
 }
+
 .label {
-  fill: #374151;
+  fill: #1e293b;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
   pointer-events: none;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
 }
 
-.highlighted circle {
-  fill: var(--accent-color, #3b82f6);
-  filter: drop-shadow(0 0 5px var(--accent-color, #3b82f6));
-}
 .highlighted .label {
+  fill: #0f172a;
   font-weight: 700;
-  fill: #111827;
 }
-
-.dimmed circle {
-  fill: #d1d5db;
-  opacity: 0.35;
-}
-.dimmed .count { opacity: 0.35; }
-.dimmed .label { opacity: 0.3; }
-
-.default:hover circle { fill: #4b5563; }

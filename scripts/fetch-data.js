@@ -78,31 +78,27 @@ function toFlagEmoji(alpha2) {
   )
 }
 
-// Determine knockout round from event date (UTC)
-function knockoutStage(dateStr) {
-  const d = new Date(dateStr)
-  const day = d.toISOString().slice(0, 10)
-  if (day <= '2026-07-07') return 'ROUND_OF_32'
-  if (day <= '2026-07-13') return 'ROUND_OF_16'
-  if (day <= '2026-07-18') return 'QUARTER_FINAL'
-  if (day <= '2026-07-23') return 'SEMI_FINAL'
-  if (day === '2026-07-25') return 'THIRD_PLACE'
-  return 'FINAL'
-}
+const KNOCKOUT_STAGES = [
+  ...Array(16).fill('ROUND_OF_32'),
+  ...Array(8).fill('ROUND_OF_16'),
+  ...Array(4).fill('QUARTER_FINAL'),
+  ...Array(2).fill('SEMI_FINAL'),
+  'THIRD_PLACE',
+  'FINAL',
+]
 
 // ESPN abbreviations like "1B", "RD16 W1" are TBD placeholders
 function isTbd(abbr) {
   return !abbr || /\d/.test(abbr) || abbr.includes(' ')
 }
 
-function normalizeMatch(event) {
+function normalizeMatch(event, stage) {
   const comp = event.competitions[0]
   const home = comp.competitors.find(c => c.homeAway === 'home')
   const away = comp.competitors.find(c => c.homeAway === 'away')
 
   const altNote = comp.altGameNote || ''
   const groupMatch = altNote.match(/Group ([A-Z]+)/)
-  const stage = groupMatch ? 'GROUP_STAGE' : knockoutStage(event.date)
   const group = groupMatch ? groupMatch[1] : null
 
   const homeTla = isTbd(home?.team?.abbreviation) ? 'TBD' : home.team.abbreviation
@@ -154,7 +150,15 @@ async function main() {
   const events = data.events || []
   console.log(`Got ${events.length} events`)
 
-  const matches = events.map(normalizeMatch)
+  const groupEvents = events.filter(e => e.competitions[0].altGameNote?.includes('Group'))
+  const knockoutEvents = events
+    .filter(e => !e.competitions[0].altGameNote?.includes('Group'))
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+
+  const matches = [
+    ...groupEvents.map(e => normalizeMatch(e, 'GROUP_STAGE')),
+    ...knockoutEvents.map((e, i) => normalizeMatch(e, KNOCKOUT_STAGES[i] || 'FINAL')),
+  ].sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc))
   const teams = extractTeams(events)
 
   writeFileSync(join(DATA_DIR, 'matches.json'), JSON.stringify(matches, null, 2))

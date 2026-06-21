@@ -1,8 +1,8 @@
 import { Marker } from 'react-simple-maps'
 import styles from './TrajectoryBubble.module.css'
 
-const R = 13 // highlighted marker radius
-const BUBBLE_H = 38
+const R = 26 // half-size of highlighted thumbnail marker (52/2)
+const BUBBLE_H = 58 // rect height 46 + 12px gap
 
 export default function TrajectoryBubble({ stadium, stops }) {
   const n = stops.length
@@ -14,12 +14,18 @@ export default function TrajectoryBubble({ stadium, stops }) {
           ? `${stop.homeScore} – ${stop.awayScore}`
           : 'vs'
         return (
-          <g key={stop.seq} transform={`translate(0, ${yCenter})`} style={{ pointerEvents: 'none' }}>
-            <rect x={-62} y={-17} width={124} height={34} rx={5} className={styles.bubble} />
-            <text textAnchor="middle" y={-4} className={styles.line1}>
+          <g key={i} transform={`translate(0, ${yCenter})`} style={{ pointerEvents: 'none' }}>
+            <rect x={-62} y={-23} width={124} height={46} rx={5} className={styles.bubble} />
+            {stop.teamColor && (
+              <rect x={-62} y={-23} width={6} height={46} rx={3} fill={stop.teamColor} />
+            )}
+            <text textAnchor="middle" y={-10} className={styles.venue}>
+              {stadium.name}
+            </text>
+            <text textAnchor="middle" y={3} className={styles.line1}>
               {stop.seq}. {stop.homeFlag} {scoreStr} {stop.awayFlag}
             </text>
-            <text textAnchor="middle" y={11} className={styles.date}>
+            <text textAnchor="middle" y={16} className={styles.date}>
               {stop.dateStr}
             </text>
           </g>

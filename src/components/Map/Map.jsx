@@ -9,7 +9,7 @@ const NA_IDS = new Set([840, 124, 484])
 
 export default function Map({
   stadiums, highlightedIds, selectedId,
-  stadiumMatchCounts, trajectoryPoints, trajectoryStopsByStadium,
+  stadiumMatchCounts, perTeamTrajectories, trajectoryStopsByStadium,
   onStadiumClick,
 }) {
   function markerState(id) {
@@ -35,18 +35,21 @@ export default function Map({
           }
         </Geographies>
 
-        {trajectoryPoints.length >= 2 && (
-          <Line
-            coordinates={trajectoryPoints}
-            stroke="var(--accent-color, #3b82f6)"
-            strokeWidth={2}
-            strokeDasharray="6 3"
-            strokeLinecap="round"
-            fill="transparent"
-          />
+        {(perTeamTrajectories || []).map(({ tla, teamColor, points }) =>
+          points.length >= 2 ? (
+            <Line
+              key={tla}
+              coordinates={points}
+              stroke={teamColor}
+              strokeWidth={2}
+              strokeDasharray="6 3"
+              strokeLinecap="round"
+              fill="transparent"
+            />
+          ) : null
         )}
 
-        {/* Pass 1: all circles — rendered first so bubbles always appear on top */}
+        {/* Pass 1: thumbnails (no labels) */}
         {stadiums.map(s => (
           <StadiumMarker
             key={s.id}
@@ -57,7 +60,19 @@ export default function Map({
           />
         ))}
 
-        {/* Pass 2: trajectory bubbles — rendered last so no circle can cover them */}
+        {/* Pass 2: city labels on top of all thumbnails */}
+        {stadiums.map(s => (
+          <StadiumMarker
+            key={`lbl-${s.id}`}
+            stadium={s}
+            state={markerState(s.id)}
+            matchCount={0}
+            onClick={onStadiumClick}
+            labelOnly
+          />
+        ))}
+
+        {/* Pass 3: trajectory bubbles — topmost */}
         {stadiums.map(s => {
           const stops = trajectoryStopsByStadium?.get(s.id)
           if (!stops?.length) return null

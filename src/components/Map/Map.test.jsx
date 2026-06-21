@@ -18,7 +18,7 @@ const emptyStopsMap = new Map()
 test('renders without crashing', () => {
   const { container } = render(
     <MapComponent stadiums={stadiums} highlightedIds={new Set()} selectedId={null}
-         stadiumMatchCounts={emptyCountMap} trajectoryPoints={[]} trajectoryStopsByStadium={emptyStopsMap} onStadiumClick={noop} />
+         stadiumMatchCounts={emptyCountMap} perTeamTrajectories={[]} trajectoryStopsByStadium={emptyStopsMap} onStadiumClick={noop} />
   )
   expect(container.firstChild).not.toBeNull()
 })
@@ -26,7 +26,7 @@ test('renders without crashing', () => {
 test('renders a button for each stadium', () => {
   render(
     <MapComponent stadiums={stadiums} highlightedIds={new Set()} selectedId={null}
-         stadiumMatchCounts={emptyCountMap} trajectoryPoints={[]} trajectoryStopsByStadium={emptyStopsMap} onStadiumClick={noop} />
+         stadiumMatchCounts={emptyCountMap} perTeamTrajectories={[]} trajectoryStopsByStadium={emptyStopsMap} onStadiumClick={noop} />
   )
   expect(screen.getAllByRole('button')).toHaveLength(16)
 })

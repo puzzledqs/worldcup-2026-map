@@ -11,7 +11,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "fetch-data": "node scripts/fetch-data.js"
+    "fetch-data": "node scripts/fetch-data.js",
+    "fetch-images": "node scripts/fetch-images.js"
   },
   "dependencies": {
     "prop-types": "^15.8.1",

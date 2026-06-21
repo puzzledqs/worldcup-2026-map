@@ -3,6 +3,60 @@
   padding: 12px 16px;
   border-bottom: 1px solid #e2e8f0;
 }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 8px;
+  border: 2px solid var(--chip-color, #3b82f6);
+  border-radius: 20px;
+  font-size: 13px;
+  background: #f8fafc;
+  color: #1e293b;
+  white-space: nowrap;
+}
+.chipFlag { font-size: 16px; line-height: 1; }
+.chipName { font-weight: 500; font-size: 12px; }
+.chipRemove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 15px;
+  padding: 0 2px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+.chipRemove:hover { color: #475569; }
+
+.clearAll {
+  background: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 11px;
+  color: #94a3b8;
+  padding: 3px 8px;
+  cursor: pointer;
+  align-self: center;
+}
+.clearAll:hover { color: #475569; background: #f1f5f9; }
+
+.maxReached {
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 4px 0 8px;
+  font-style: italic;
+}
+
 .row { display: flex; align-items: center; gap: 8px; }
 .input {
   flex: 1;
@@ -17,16 +71,6 @@
 }
 .input:focus { border-color: var(--accent-color, #3b82f6); }
 
-.clearBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  color: #94a3b8;
-  padding: 4px;
-  line-height: 1;
-}
-.clearBtn:hover { color: #475569; }
 
 .dropdown {
   position: absolute;
@@ -54,6 +98,5 @@
   color: #1e293b;
 }
 .option:hover { background: #f1f5f9; }
-.selected { background: #eff6ff; font-weight: 600; }
 .flag { font-size: 18px; line-height: 1; }
 .empty { padding: 12px; text-align: center; color: #94a3b8; font-size: 13px; }

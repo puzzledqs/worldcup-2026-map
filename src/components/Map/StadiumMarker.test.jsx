@@ -12,8 +12,8 @@ const stadium = {
   country: 'USA', lat: 40.81, lon: -74.07,
 }
 
-test('renders the stadium city name', () => {
-  render(<StadiumMarker stadium={stadium} state="default" matchCount={6} onClick={() => {}} />)
+test('renders the stadium city name in label-only mode', () => {
+  render(<StadiumMarker stadium={stadium} state="default" matchCount={6} onClick={() => {}} labelOnly />)
   expect(screen.getByText('East Rutherford')).toBeInTheDocument()
 })
 
