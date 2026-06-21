@@ -8,7 +8,7 @@ const NA_IDS = new Set([840, 124, 484])
 
 export default function Map({
   stadiums, highlightedIds, selectedId,
-  stadiumMatchCounts, trajectoryPoints,
+  stadiumMatchCounts, trajectoryPoints, trajectoryStopsByStadium,
   onStadiumClick,
 }) {
   function markerState(id) {
@@ -51,6 +51,7 @@ export default function Map({
             stadium={s}
             state={markerState(s.id)}
             matchCount={stadiumMatchCounts.get(s.id) ?? 0}
+            trajectoryStops={trajectoryStopsByStadium?.get(s.id) || []}
             onClick={onStadiumClick}
           />
         ))}

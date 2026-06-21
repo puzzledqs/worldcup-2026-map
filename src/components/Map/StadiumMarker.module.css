@@ -39,3 +39,23 @@
 .dimmed .label { opacity: 0.3; }
 
 .default:hover circle { fill: #4b5563; }
+
+.bubble {
+  fill: white;
+  stroke: #e2e8f0;
+  stroke-width: 1;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.10));
+}
+.bubbleLine1 {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #0f172a;
+  font-family: inherit;
+  pointer-events: none;
+}
+.bubbleDate {
+  font-size: 10px;
+  fill: #64748b;
+  font-family: inherit;
+  pointer-events: none;
+}

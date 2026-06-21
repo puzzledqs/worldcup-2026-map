@@ -22,6 +22,13 @@ test('shows match count', () => {
   expect(screen.getByText('7')).toBeInTheDocument()
 })
 
+test('renders trajectory bubble with sequence and date', () => {
+  const stops = [{ seq: 2, dateStr: 'Jun 18', homeFlag: '🇰🇷', awayFlag: '🇨🇿', homeScore: 2, awayScore: 1 }]
+  render(<StadiumMarker stadium={stadium} state="highlighted" matchCount={6} trajectoryStops={stops} onClick={() => {}} />)
+  expect(screen.getByText(/2\./)).toBeInTheDocument()
+  expect(screen.getByText('Jun 18')).toBeInTheDocument()
+})
+
 test('calls onClick with stadium id when clicked', () => {
   const onClick = vi.fn()
   render(<StadiumMarker stadium={stadium} state="default" matchCount={0} onClick={onClick} />)

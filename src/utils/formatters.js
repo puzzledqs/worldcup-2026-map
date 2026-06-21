@@ -3,6 +3,11 @@ export function formatScore(homeScore, awayScore) {
   return `${homeScore} – ${awayScore}`
 }
 
+export function formatMatchDateShort(datetimeUtc) {
+  if (!datetimeUtc) return '—'
+  return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date(datetimeUtc))
+}
+
 export function formatMatchDate(datetimeUtc) {
   if (!datetimeUtc) return '—'
   return new Intl.DateTimeFormat(undefined, {

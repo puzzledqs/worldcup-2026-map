@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { formatMatchDateShort } from './utils/formatters'
 import matchesData  from './data/matches.json'
 import teamsData    from './data/teams.json'
 import stadiumsData from './data/stadiums.json'
@@ -50,18 +51,41 @@ export default function App() {
     return new Set()
   }, [selectedTeam, selectedGroup])
 
-  // Chronological sequence of [lon, lat] for selected team's matches (dedup consecutive)
-  const trajectoryPoints = useMemo(() => {
+  // All of the selected team's matches in order, with display info
+  const teamMatchStops = useMemo(() => {
     if (!selectedTeam) return []
-    const stadia = matchesData
+    return matchesData
       .filter(m => (m.home_team === selectedTeam || m.away_team === selectedTeam) && m.stadium_id)
       .sort((a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc))
-      .map(m => stadiumsMap.get(m.stadium_id))
+      .map((m, idx) => ({
+        seq: idx + 1,
+        stadium_id: m.stadium_id,
+        dateStr: formatMatchDateShort(m.datetime_utc),
+        homeFlag: teamsMap.get(m.home_team)?.flag || m.home_team,
+        awayFlag: teamsMap.get(m.away_team)?.flag || m.away_team,
+        homeScore: m.home_score,
+        awayScore: m.away_score,
+      }))
+  }, [selectedTeam, teamsMap])
+
+  // Grouped by stadium so StadiumMarker can render stacked bubbles
+  const trajectoryStopsByStadium = useMemo(() => {
+    const byStadium = new Map()
+    teamMatchStops.forEach(stop => {
+      if (!byStadium.has(stop.stadium_id)) byStadium.set(stop.stadium_id, [])
+      byStadium.get(stop.stadium_id).push(stop)
+    })
+    return byStadium
+  }, [teamMatchStops])
+
+  // Dedup consecutive same-stadium visits for the Line path
+  const trajectoryPoints = useMemo(() => {
+    const stadia = teamMatchStops
+      .map(s => stadiumsMap.get(s.stadium_id))
       .filter(Boolean)
-    // Remove consecutive duplicates so we don't draw zero-length segments
     const deduped = stadia.filter((s, i) => i === 0 || s.id !== stadia[i - 1].id)
     return deduped.map(s => [s.lon, s.lat])
-  }, [selectedTeam, stadiumsMap])
+  }, [teamMatchStops, stadiumsMap])
 
   const accentColor = selectedTeam
     ? (teamsMap.get(selectedTeam)?.color || '#3b82f6')
@@ -100,6 +124,7 @@ export default function App() {
           selectedId={selectedStadium}
           stadiumMatchCounts={stadiumMatchCounts}
           trajectoryPoints={trajectoryPoints}
+          trajectoryStopsByStadium={trajectoryStopsByStadium}
           onStadiumClick={handleStadiumClick}
         />
       </div>
