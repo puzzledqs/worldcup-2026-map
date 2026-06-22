@@ -447,8 +447,8 @@
     "stadium_id": "DAL",
     "home_team": "ARG",
     "away_team": "AUT",
-    "home_score": null,
-    "away_score": null
+    "home_score": 2,
+    "away_score": 0
   },
   {
     "id": "760457",
