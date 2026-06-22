@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { formatMatchDateShort } from './utils/formatters'
 import matchesData  from './data/matches.json'
 import teamsData    from './data/teams.json'
@@ -11,6 +11,31 @@ export default function App() {
   const [selectedTeams,  setSelectedTeams]  = useState(new Set())
   const [selectedStadium, setSelectedStadium] = useState(null)
   const [selectedGroup,   setSelectedGroup]   = useState(null)
+  const [selectedStage,   setSelectedStage]   = useState(null)
+  const [focusedStadium,  setFocusedStadium]  = useState(null)
+  const focusTimer = useRef(null)
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    if (saved === 'light' || saved === 'dark') return saved
+    return 'dark'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  // Tick every minute so time-based match status (live/finished) stays current
+  // while the page is left open, without re-fetching data.
+  const [, setNowTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setNowTick(t => t + 1), 60000)
+    return () => clearInterval(id)
+  }, [])
+
+  function toggleTheme() {
+    setTheme(t => t === 'dark' ? 'light' : 'dark')
+  }
 
   const stadiumsMap = useMemo(
     () => new Map(stadiumsData.map(s => [s.id, s])), []
@@ -20,6 +45,10 @@ export default function App() {
   )
   const groups = useMemo(
     () => [...new Set(matchesData.filter(m => m.group).map(m => m.group))].sort(),
+    []
+  )
+  const stages = useMemo(
+    () => [...new Set(matchesData.map(m => m.stage))],
     []
   )
 
@@ -44,8 +73,13 @@ export default function App() {
         matchesData.filter(m => m.group === selectedGroup && m.stadium_id).map(m => m.stadium_id)
       )
     }
+    if (selectedStage) {
+      return new Set(
+        matchesData.filter(m => m.stage === selectedStage && m.stadium_id).map(m => m.stadium_id)
+      )
+    }
     return new Set()
-  }, [selectedTeams, selectedGroup])
+  }, [selectedTeams, selectedGroup, selectedStage])
 
   // Per-team trajectory data: stops, line points, and team color
   const perTeamTrajectories = useMemo(() => {
@@ -108,6 +142,7 @@ export default function App() {
     setSelectedTeams(prev => new Set([...prev, tla]))
     setSelectedStadium(null)
     setSelectedGroup(null)
+    setSelectedStage(null)
   }
   function handleTeamRemove(tla) {
     setSelectedTeams(prev => {
@@ -122,15 +157,35 @@ export default function App() {
     setSelectedGroup(g)
     setSelectedTeams(new Set())
     setSelectedStadium(null)
+    setSelectedStage(null)
   }
   function handleGroupClear() { setSelectedGroup(null) }
+
+  function handleStageSelect(s) {
+    setSelectedStage(s)
+    setSelectedTeams(new Set())
+    setSelectedStadium(null)
+    setSelectedGroup(null)
+  }
+  function handleStageClear() { setSelectedStage(null) }
 
   function handleStadiumClick(id) {
     setSelectedStadium(prev => prev === id ? null : id)
     setSelectedTeams(new Set())
     setSelectedGroup(null)
+    setSelectedStage(null)
   }
   function handleStadiumClear() { setSelectedStadium(null) }
+
+  // Click a match card → briefly pulse its venue on the map (non-destructive)
+  function handleMatchClick(match) {
+    if (!match.stadium_id) return
+    setFocusedStadium(null)
+    if (focusTimer.current) clearTimeout(focusTimer.current)
+    // re-set on next frame so the CSS animation restarts even for same stadium
+    requestAnimationFrame(() => setFocusedStadium(match.stadium_id))
+    focusTimer.current = setTimeout(() => setFocusedStadium(null), 2800)
+  }
 
   const stadiumName = selectedStadium
     ? stadiumsMap.get(selectedStadium)?.name || null
@@ -138,35 +193,59 @@ export default function App() {
 
   return (
     <div className={styles.app} style={{ '--accent-color': accentColor }}>
-      <div className={styles.mapPanel}>
-        <MapComponent
-          stadiums={stadiumsData}
-          highlightedIds={highlightedStadiumIds}
-          selectedId={selectedStadium}
-          stadiumMatchCounts={stadiumMatchCounts}
-          perTeamTrajectories={perTeamTrajectories}
-          trajectoryStopsByStadium={trajectoryStopsByStadium}
-          onStadiumClick={handleStadiumClick}
-        />
-      </div>
-      <div className={styles.sidebarPanel}>
-        <Sidebar
-          teams={teamsData}
-          matches={matchesData}
-          groups={groups}
-          stadiumsMap={stadiumsMap}
-          teamsMap={teamsMap}
-          selectedTlas={selectedTeams}
-          selectedStadium={selectedStadium}
-          stadiumName={stadiumName}
-          selectedGroup={selectedGroup}
-          onTeamAdd={handleTeamAdd}
-          onTeamRemove={handleTeamRemove}
-          onTeamClearAll={handleTeamClearAll}
-          onGroupSelect={handleGroupSelect}
-          onGroupClear={handleGroupClear}
-          onStadiumClear={handleStadiumClear}
-        />
+      <header className={styles.header}>
+        <div className={styles.titleBlock}>
+          <h1 className={styles.title}>⚽ 2026 World Cup Schedule Map</h1>
+          <p className={styles.subtitle}>
+            Pick teams (up to 4), a group, or a stage to see every match's time, venue and score across North America
+          </p>
+        </div>
+        <button
+          className={styles.themeToggle}
+          onClick={toggleTheme}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+      </header>
+      <div className={styles.body}>
+        <div className={styles.mapPanel}>
+          <MapComponent
+            stadiums={stadiumsData}
+            highlightedIds={highlightedStadiumIds}
+            selectedId={selectedStadium}
+            focusedId={focusedStadium}
+            stadiumMatchCounts={stadiumMatchCounts}
+            perTeamTrajectories={perTeamTrajectories}
+            trajectoryStopsByStadium={trajectoryStopsByStadium}
+            onStadiumClick={handleStadiumClick}
+          />
+        </div>
+        <div className={styles.sidebarPanel}>
+          <Sidebar
+            teams={teamsData}
+            matches={matchesData}
+            groups={groups}
+            stages={stages}
+            stadiumsMap={stadiumsMap}
+            teamsMap={teamsMap}
+            selectedTlas={selectedTeams}
+            selectedStadium={selectedStadium}
+            stadiumName={stadiumName}
+            selectedGroup={selectedGroup}
+            selectedStage={selectedStage}
+            onTeamAdd={handleTeamAdd}
+            onTeamRemove={handleTeamRemove}
+            onTeamClearAll={handleTeamClearAll}
+            onGroupSelect={handleGroupSelect}
+            onGroupClear={handleGroupClear}
+            onStageSelect={handleStageSelect}
+            onStageClear={handleStageClear}
+            onStadiumClear={handleStadiumClear}
+            onMatchClick={handleMatchClick}
+          />
+        </div>
       </div>
     </div>
   )

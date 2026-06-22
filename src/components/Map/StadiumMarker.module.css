@@ -4,12 +4,12 @@
 }
 
 .fallback {
-  fill: #6b7280;
+  fill: var(--marker-fallback);
 }
 
 .border {
   fill: none;
-  stroke: #fff;
+  stroke: var(--marker-ring);
   stroke-width: 2;
   pointer-events: none;
 }
@@ -25,7 +25,7 @@
 }
 
 .badge {
-  fill: rgba(15, 23, 42, 0.72);
+  fill: var(--count-badge);
 }
 
 .count {
@@ -37,18 +37,18 @@
 }
 
 .label {
-  fill: #1e293b;
+  fill: var(--label-text);
   font-size: 10px;
   font-weight: 600;
   font-family: inherit;
   pointer-events: none;
   paint-order: stroke;
-  stroke: #fff;
+  stroke: var(--label-halo);
   stroke-width: 3px;
   stroke-linejoin: round;
 }
 
 .highlighted .label {
-  fill: #0f172a;
+  fill: var(--label-text-strong);
   font-weight: 700;
 }

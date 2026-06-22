@@ -1,7 +1,7 @@
 import MatchCard from './MatchCard'
 import styles from './MatchList.module.css'
 
-export default function MatchList({ matches, stadiumsMap, teamsMap, emptyMessage }) {
+export default function MatchList({ matches, stadiumsMap, teamsMap, emptyMessage, onMatchClick }) {
   const sorted = [...matches].sort(
     (a, b) => new Date(a.datetime_utc) - new Date(b.datetime_utc)
   )
@@ -20,6 +20,7 @@ export default function MatchList({ matches, stadiumsMap, teamsMap, emptyMessage
           awayTeam={teamsMap.get(match.away_team)}
           stadiumName={stadiumsMap.get(match.stadium_id)?.name || match.stadium_id || '—'}
           stadiumCity={stadiumsMap.get(match.stadium_id)?.city || ''}
+          onClick={match.stadium_id ? onMatchClick : undefined}
         />
       ))}
     </div>

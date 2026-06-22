@@ -1,4 +1,4 @@
-import { ComposableMap, Geographies, Geography, Line } from 'react-simple-maps'
+import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simple-maps'
 import StadiumMarker from './StadiumMarker'
 import TrajectoryBubble from './TrajectoryBubble'
 import styles from './Map.module.css'
@@ -8,7 +8,7 @@ const GEO_URL = '/world-110m.json'
 const NA_IDS = new Set([840, 124, 484])
 
 export default function Map({
-  stadiums, highlightedIds, selectedId,
+  stadiums, highlightedIds, selectedId, focusedId,
   stadiumMatchCounts, perTeamTrajectories, trajectoryStopsByStadium,
   onStadiumClick,
 }) {
@@ -22,7 +22,7 @@ export default function Map({
     <div className={styles.container}>
       <ComposableMap
         projection="geoMercator"
-        projectionConfig={{ scale: 500, center: [-97, 40] }}
+        projectionConfig={{ scale: 660, center: [-96, 37] }}
         style={{ width: '100%', height: '100%' }}
       >
         <Geographies geography={GEO_URL}>
@@ -48,6 +48,18 @@ export default function Map({
             />
           ) : null
         )}
+
+        {/* Focus ring for a stadium clicked from a match card */}
+        {focusedId && (() => {
+          const s = stadiums.find(st => st.id === focusedId)
+          if (!s) return null
+          return (
+            <Marker coordinates={[s.lon, s.lat]}>
+              <circle className={styles.focusRingStatic} r={34} />
+              <circle className={styles.focusRing} r={38} />
+            </Marker>
+          )
+        })()}
 
         {/* Pass 1: thumbnails (no labels) */}
         {stadiums.map(s => (

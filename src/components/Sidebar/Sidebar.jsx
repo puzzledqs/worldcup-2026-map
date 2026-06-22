@@ -1,16 +1,22 @@
-import { filterByTeams, filterByStadium, filterByGroup, getUpcoming } from '../../utils/matchFilters'
+import { filterByTeams, filterByStadium, filterByGroup, filterByStage, getUpcoming } from '../../utils/matchFilters'
 import TeamSelector from './TeamSelector'
 import GroupSelector from './GroupSelector'
+import StageSelector from './StageSelector'
 import MatchList from './MatchList'
 import styles from './Sidebar.module.css'
 
+const STAGE_LABELS = {
+  GROUP_STAGE: 'Group Stage', ROUND_OF_32: 'Round of 32', ROUND_OF_16: 'Round of 16',
+  QUARTER_FINAL: 'Quarter-finals', SEMI_FINAL: 'Semi-finals', THIRD_PLACE: 'Third Place', FINAL: 'Final',
+}
+
 export default function Sidebar({
-  teams, matches, groups, stadiumsMap, teamsMap,
-  selectedTlas, selectedStadium, stadiumName,
-  selectedGroup,
+  teams, matches, groups, stages, stadiumsMap, teamsMap,
+  selectedTlas, selectedStadium, stadiumName, selectedGroup, selectedStage,
   onTeamAdd, onTeamRemove, onTeamClearAll,
   onGroupSelect, onGroupClear,
-  onStadiumClear,
+  onStageSelect, onStageClear,
+  onStadiumClear, onMatchClick,
 }) {
   if (matches.length === 0 && teams.length === 0) {
     return (
@@ -41,6 +47,10 @@ export default function Sidebar({
     displayedMatches = filterByGroup(matches, selectedGroup)
     heading          = `Group ${selectedGroup}`
     emptyMessage     = 'No matches in this group'
+  } else if (selectedStage) {
+    displayedMatches = filterByStage(matches, selectedStage)
+    heading          = STAGE_LABELS[selectedStage] || selectedStage
+    emptyMessage     = 'No matches in this stage'
   } else if (selectedStadium) {
     displayedMatches = filterByStadium(matches, selectedStadium)
     heading          = stadiumName || selectedStadium
@@ -66,6 +76,12 @@ export default function Sidebar({
         onSelect={onGroupSelect}
         onClear={onGroupClear}
       />
+      <StageSelector
+        stages={stages}
+        selectedStage={selectedStage}
+        onSelect={onStageSelect}
+        onClear={onStageClear}
+      />
       {selectedStadium && (() => {
         const stadium = stadiumsMap.get(selectedStadium)
         return stadium?.thumbnail ? (
@@ -85,6 +101,7 @@ export default function Sidebar({
         stadiumsMap={stadiumsMap}
         teamsMap={teamsMap}
         emptyMessage={emptyMessage}
+        onMatchClick={onMatchClick}
       />
     </aside>
   )

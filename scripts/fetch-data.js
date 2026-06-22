@@ -106,8 +106,11 @@ function normalizeMatch(event, stage) {
 
   const homeScore = home?.score != null ? parseInt(home.score, 10) : null
   const awayScore = away?.score != null ? parseInt(away.score, 10) : null
-  const isPlayed = comp.status?.type?.name === 'STATUS_FULL_TIME' ||
-                   comp.status?.type?.name === 'STATUS_FINAL'
+  // ESPN status.type.state: 'pre' | 'in' | 'post' — used only to decide whether
+  // a score is real (ESPN returns 0–0 for unplayed games). The live/finished
+  // badge is computed client-side from kickoff time, not from this snapshot.
+  const state = comp.status?.type?.state || 'pre'
+  const hasRealScore = state === 'post' || state === 'in'
 
   return {
     id: String(event.id),
@@ -117,8 +120,8 @@ function normalizeMatch(event, stage) {
     stadium_id: VENUE_TO_STADIUM_ID[comp.venue?.fullName] || null,
     home_team: homeTla,
     away_team: awayTla,
-    home_score: isPlayed ? homeScore : null,
-    away_score: isPlayed ? awayScore : null,
+    home_score: hasRealScore ? homeScore : null,
+    away_score: hasRealScore ? awayScore : null,
   }
 }
 

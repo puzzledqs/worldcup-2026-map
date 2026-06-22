@@ -9,9 +9,9 @@ const match = {
 const homeTeam = { tla: 'USA', name: 'United States', shortName: 'USA', flag: '🇺🇸', color: '#B22234' }
 const awayTeam = { tla: 'MEX', name: 'Mexico',        shortName: 'Mexico', flag: '🇲🇽', color: '#006847' }
 
-test('shows Upcoming when scores are null', () => {
+test('shows "vs" when scores are null', () => {
   render(<MatchCard match={match} homeTeam={homeTeam} awayTeam={awayTeam} stadiumName="MetLife Stadium" />)
-  expect(screen.getByText('Upcoming')).toBeInTheDocument()
+  expect(screen.getByText('vs')).toBeInTheDocument()
 })
 
 test('shows formatted score when match is played', () => {

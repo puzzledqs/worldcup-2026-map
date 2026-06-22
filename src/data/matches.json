@@ -425,8 +425,8 @@
     "stadium_id": "MIA",
     "home_team": "URU",
     "away_team": "CPV",
-    "home_score": null,
-    "away_score": null
+    "home_score": 2,
+    "away_score": 2
   },
   {
     "id": "760452",

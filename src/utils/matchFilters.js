@@ -14,6 +14,10 @@ export function filterByGroup(matches, group) {
   return matches.filter(m => m.group === group)
 }
 
+export function filterByStage(matches, stage) {
+  return matches.filter(m => m.stage === stage)
+}
+
 export function getUpcoming(matches, n) {
   const now = Date.now()
   return matches

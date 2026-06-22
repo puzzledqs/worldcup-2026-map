@@ -27,8 +27,8 @@ test('shows empty message when matches array is empty', () => {
 
 test('sorts matches chronologically (earliest first)', () => {
   render(<MatchList matches={matches} stadiumsMap={stadiumsMap} teamsMap={teamsMap} emptyMessage="None" />)
-  const scores = screen.getAllByText(/2 – 1|Upcoming/)
-  // Jun 11 (score 2-1) should appear before Jun 14 (Upcoming)
+  const scores = screen.getAllByText(/2 – 1|vs/)
+  // Jun 11 (score 2-1) should appear before the later, unplayed match (vs)
   expect(scores[0]).toHaveTextContent('2 – 1')
-  expect(scores[1]).toHaveTextContent('Upcoming')
+  expect(scores[1]).toHaveTextContent('vs')
 })

@@ -16,14 +16,16 @@ const matches = [
 ]
 
 const groups = ['A', 'B']
+const stages = ['GROUP_STAGE']
 
 const base = {
-  teams, matches, groups, stadiumsMap, teamsMap,
+  teams, matches, groups, stages, stadiumsMap, teamsMap,
   selectedTlas: new Set(), selectedStadium: null, stadiumName: null,
-  selectedGroup: null,
+  selectedGroup: null, selectedStage: null,
   onTeamAdd: () => {}, onTeamRemove: () => {}, onTeamClearAll: () => {},
   onGroupSelect: () => {}, onGroupClear: () => {},
-  onStadiumClear: () => {},
+  onStageSelect: () => {}, onStageClear: () => {},
+  onStadiumClear: () => {}, onMatchClick: () => {},
 }
 
 test('shows "Next matches" heading when nothing selected', () => {

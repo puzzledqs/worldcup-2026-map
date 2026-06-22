@@ -1,22 +1,22 @@
 .bubble {
-  fill: white;
-  stroke: #e2e8f0;
+  fill: var(--bubble-bg);
+  stroke: var(--bubble-border);
   stroke-width: 1;
-  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.12));
+  filter: drop-shadow(0 1px 4px var(--shadow-bubble));
 }
 .venue {
   font-size: 9px;
-  fill: #94a3b8;
+  fill: var(--text-muted);
   font-family: inherit;
 }
 .line1 {
   font-size: 12px;
   font-weight: 600;
-  fill: #0f172a;
+  fill: var(--text);
   font-family: inherit;
 }
 .date {
   font-size: 10px;
-  fill: #64748b;
+  fill: var(--text-3);
   font-family: inherit;
 }
