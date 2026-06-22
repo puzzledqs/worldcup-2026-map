@@ -28,7 +28,7 @@ test('renders without crashing and shows search input', () => {
   expect(screen.getByRole('textbox')).toBeInTheDocument()
 })
 
-test('shows Next matches by default', () => {
+test('shows Live & upcoming by default', () => {
   render(<App />)
-  expect(screen.getByText('Next matches')).toBeInTheDocument()
+  expect(screen.getByText('Live & upcoming')).toBeInTheDocument()
 })

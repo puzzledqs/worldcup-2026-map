@@ -28,9 +28,9 @@ const base = {
   onStadiumClear: () => {}, onMatchClick: () => {},
 }
 
-test('shows "Next matches" heading when nothing selected', () => {
+test('shows "Live & upcoming" heading when nothing selected', () => {
   render(<Sidebar {...base} />)
-  expect(screen.getByText('Next matches')).toBeInTheDocument()
+  expect(screen.getByText('Live & upcoming')).toBeInTheDocument()
 })
 
 test('shows team name as heading when team selected', () => {

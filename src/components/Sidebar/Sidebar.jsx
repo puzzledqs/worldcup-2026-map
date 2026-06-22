@@ -57,7 +57,7 @@ export default function Sidebar({
     emptyMessage     = 'No matches at this venue'
   } else {
     displayedMatches = getUpcoming(matches, 5)
-    heading          = 'Next matches'
+    heading          = 'Live & upcoming'
     emptyMessage     = 'No upcoming matches'
   }
 
