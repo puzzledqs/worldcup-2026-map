@@ -458,8 +458,8 @@
     "stadium_id": "PHI",
     "home_team": "FRA",
     "away_team": "IRQ",
-    "home_score": null,
-    "away_score": null
+    "home_score": 1,
+    "away_score": 0
   },
   {
     "id": "760454",
