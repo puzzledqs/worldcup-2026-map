@@ -17,12 +17,13 @@ function stageLabel(stage, group) {
 }
 
 export default function MatchCard({ match, homeTeam, awayTeam, stadiumName, stadiumCity, onClick }) {
-  const score    = formatScore(match.home_score, match.away_score)
+  const status   = matchStatus(match)
+  // Only show a score once the match is finished — hide it while live or upcoming
+  const score    = status.kind === 'finished' ? formatScore(match.home_score, match.away_score) : null
   const homeName = homeTeam?.name || match.home_team
   const awayName = awayTeam?.name || match.away_team
   const homeFlag = homeTeam?.flag || ''
   const awayFlag = awayTeam?.flag || ''
-  const status   = matchStatus(match)
 
   return (
     <div
