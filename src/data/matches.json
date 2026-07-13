@@ -1019,8 +1019,8 @@
     "stadium_id": "DAL",
     "home_team": "POR",
     "away_team": "ESP",
-    "home_score": null,
-    "away_score": null
+    "home_score": 0,
+    "away_score": 1
   },
   {
     "id": "760507",
@@ -1030,8 +1030,8 @@
     "stadium_id": "SEA",
     "home_team": "USA",
     "away_team": "BEL",
-    "home_score": null,
-    "away_score": null
+    "home_score": 1,
+    "away_score": 4
   },
   {
     "id": "760509",
@@ -1041,8 +1041,8 @@
     "stadium_id": "ATL",
     "home_team": "ARG",
     "away_team": "EGY",
-    "home_score": null,
-    "away_score": null
+    "home_score": 3,
+    "away_score": 2
   },
   {
     "id": "760508",
@@ -1052,8 +1052,8 @@
     "stadium_id": "VAN",
     "home_team": "SUI",
     "away_team": "COL",
-    "home_score": null,
-    "away_score": null
+    "home_score": 0,
+    "away_score": 0
   },
   {
     "id": "760510",
@@ -1063,8 +1063,8 @@
     "stadium_id": "BOS",
     "home_team": "FRA",
     "away_team": "MAR",
-    "home_score": null,
-    "away_score": null
+    "home_score": 2,
+    "away_score": 0
   },
   {
     "id": "760511",
@@ -1072,10 +1072,10 @@
     "group": null,
     "datetime_utc": "2026-07-10T19:00Z",
     "stadium_id": "LA",
-    "home_team": "TBD",
-    "away_team": "TBD",
-    "home_score": null,
-    "away_score": null
+    "home_team": "ESP",
+    "away_team": "BEL",
+    "home_score": 2,
+    "away_score": 1
   },
   {
     "id": "760512",
@@ -1085,8 +1085,8 @@
     "stadium_id": "MIA",
     "home_team": "NOR",
     "away_team": "ENG",
-    "home_score": null,
-    "away_score": null
+    "home_score": 1,
+    "away_score": 2
   },
   {
     "id": "760513",
@@ -1094,10 +1094,10 @@
     "group": null,
     "datetime_utc": "2026-07-12T01:00Z",
     "stadium_id": "KC",
-    "home_team": "TBD",
-    "away_team": "TBD",
-    "home_score": null,
-    "away_score": null
+    "home_team": "ARG",
+    "away_team": "SUI",
+    "home_score": 3,
+    "away_score": 1
   },
   {
     "id": "760514",
@@ -1105,8 +1105,8 @@
     "group": null,
     "datetime_utc": "2026-07-14T19:00Z",
     "stadium_id": "DAL",
-    "home_team": "TBD",
-    "away_team": "TBD",
+    "home_team": "FRA",
+    "away_team": "ESP",
     "home_score": null,
     "away_score": null
   },
@@ -1116,8 +1116,8 @@
     "group": null,
     "datetime_utc": "2026-07-15T19:00Z",
     "stadium_id": "ATL",
-    "home_team": "TBD",
-    "away_team": "TBD",
+    "home_team": "ENG",
+    "away_team": "ARG",
     "home_score": null,
     "away_score": null
   },
